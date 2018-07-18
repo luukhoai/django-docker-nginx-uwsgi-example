@@ -1,0 +1,17 @@
+version: '3'
+services:
+  app:
+    build: .
+    image: django-project
+    ports:
+      - "8000:8000"
+
+  nginx:
+    build: ./nginx
+    image: django-nginx
+    depends_on:
+      - app
+    links:
+      - app
+    ports:
+      - "80:80"
