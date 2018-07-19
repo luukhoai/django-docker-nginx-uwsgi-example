@@ -7,25 +7,29 @@
 
 ### Create django project
 1. Create project by command: `django-admin startproject django_projects`
-2. Collect static file `python manage.py collectstatic`
-3. Migrate database by command: `python manage.py migrate`
-4. Start project by command: `python manage.py runserver 0:8000`
-5. Go to url `localhost:8000` and check screen.
+2. Migrate database by command: `python manage.py migrate`
+3. Start project by command: `python manage.py runserver 0:8000`
+4. Go to url `localhost:8000` and check screen.
 
 
 ### Building project using Docker & Docker-compose
-1. Create file `all_run.sh` at base directory
+1. Go to file `django_projects/settings.py` and add STATIC_ROOT
+```bash
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
+``` 
+
+2. Create file `all_run.sh` at base directory
 ```bash
     python manage.py collectstatic && python manage.py migrate && python manage.py runserver 0:8000
 ```
 
-2. Create file `requirements.txt` at base dicrectory.
+3. Create file `requirements.txt` at base dicrectory.
 ```bash
     django==2.0.7
     uwsgi==2.0.17
 ```
 
-3. Create file `Dockerfile` at base directory
+4. Create file `Dockerfile` at base directory
 ```
     FROM python:3.5.2
     RUN mkdir -p /usr/src/app
@@ -36,7 +40,7 @@
     CMD ["sh","./all_run.sh"]
 ```
 
-4. Create file `docker-compose.yml` at base directory
+5. Create file `docker-compose.yml` at base directory
 ```bash
     version: '3'
     services:
@@ -47,9 +51,9 @@
           - "8000:8000"
 ```
 
-5. To build project by docker, using this command: `sudo docker-compose build`
-6. After build success, running this project by command: `sudo docker-compose up -d`
-7. Go to url `localhost:8000` and check screen.
+6. To build project by docker, using this command: `sudo docker-compose build`
+7. After build success, running this project by command: `sudo docker-compose up -d`
+8. Go to url `localhost:8000` and check screen.
     `localhost:8000` is working by connection directly into project.
 
 
